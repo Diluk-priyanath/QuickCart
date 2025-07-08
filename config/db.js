@@ -17,7 +17,7 @@ async function connectDB() {
            
         };
 
-        cashed.promise = mongoose.connect(`$process.env.MONGODB_URI}/quickcart`, opts).then((mongoose) => {
+        cashed.promise = mongoose.connect(`${process.env.MONGODB_URI}/quickcart`, opts).then((mongoose) => {
             return mongoose;
         });
     }
