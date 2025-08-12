@@ -1,7 +1,8 @@
 import { Inngest } from "inngest";
-import { connect } from "mongoose";
+import Order from "@/models/Order";
 import connectDB from "./db";
 import User from "@/models/User";
+
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "quickcart-next" });
@@ -73,16 +74,15 @@ export const createUserOrder = inngest.createFunction(
     },
   },
   { event: "order/created" },
-  async ({ event }) => {
+  async ({ events }) => {
 
-    const orders = events.map(async (event) => {
+    const orders = events.map((event) => {
       return {
         userId: event.data.userId,
-        address: event.data.address,
         items: event.data.items,
         amount: event.data.amount,
-        date: event.data.date,
-        
+        address: event.data.address,
+        date: event.data.date
       };
     });
 
@@ -91,3 +91,4 @@ export const createUserOrder = inngest.createFunction(
 
     return { success: true, processed: orders.length };
   })
+  
